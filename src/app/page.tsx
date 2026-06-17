@@ -70,16 +70,16 @@ export default function Home() {
   }, [handleInputChange]);
 
   return (
-    <div className="bg-background overflow-hidden font-body-md">
+    <div className="bg-background md:overflow-hidden font-body-md">
       <Header onMenuClick={() => setIsSidebarOpen(!isSidebarOpen)} />
 
       <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
 
       {/* Main Content Canvas */}
-      <main className={`${isSidebarOpen ? 'md:pl-72' : ''} pt-16 h-screen flex flex-col md:flex-row transition-all duration-300 ease-in-out`}>
+      <main className={`${isSidebarOpen ? 'md:pl-72' : ''} pt-16 pb-20 md:pb-0 h-auto md:h-screen flex flex-col md:flex-row transition-all duration-300 ease-in-out`}>
         
         {/* Left: Digital Receptionist Center Stage */}
-        <div className="flex-1 flex flex-col p-margin-mobile md:p-margin-desktop overflow-hidden">
+        <div className="w-full h-[calc(100dvh-144px)] md:h-auto md:flex-1 flex flex-col p-margin-mobile md:p-margin-desktop overflow-hidden">
           
 
 
