@@ -102,7 +102,7 @@ export async function POST(req: Request) {
               
               const availableSlots = data.map(slot => ({
                 slotId: slot.id,
-                time: new Date(slot.start_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+                time: new Date(slot.start_time).toLocaleTimeString('en-US', { timeZone: 'UTC', hour: '2-digit', minute: '2-digit' }),
                 doctor: (slot.doctors as any)?.name,
                 specialty: (slot.doctors as any)?.specialty
               }));
@@ -186,7 +186,7 @@ export async function POST(req: Request) {
                 return {
                   id: appt.id,
                   date: startTime.toLocaleDateString(),
-                  time: startTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+                  time: startTime.toLocaleTimeString('en-US', { timeZone: 'UTC', hour: '2-digit', minute: '2-digit' }),
                   doctor: (appt.doctors as any)?.name,
                   symptoms: appt.symptoms
                 };

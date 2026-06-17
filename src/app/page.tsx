@@ -8,9 +8,31 @@ import { Sidebar } from "@/components/layout/Sidebar";
 import { InfoPanel } from "@/components/dashboard/InfoPanel";
 
 export default function Home() {
-  const { messages, input, handleInputChange, handleSubmit, isLoading, error } = useChat({
+  const { messages, input, handleInputChange, handleSubmit, isLoading, error, setMessages } = useChat({
     api: '/api/chat',
   });
+
+  // Load chat history from local storage
+  useEffect(() => {
+    const saved = localStorage.getItem('careflow_chat_messages');
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        if (parsed.length > 0) {
+          setMessages(parsed);
+        }
+      } catch (e) {
+        console.error('Failed to parse saved chat:', e);
+      }
+    }
+  }, [setMessages]);
+
+  // Save chat history to local storage
+  useEffect(() => {
+    if (messages.length > 0) {
+      localStorage.setItem('careflow_chat_messages', JSON.stringify(messages));
+    }
+  }, [messages]);
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isListening, setIsListening] = useState(false);
