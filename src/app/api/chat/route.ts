@@ -102,7 +102,7 @@ export async function POST(req: Request) {
               
               const availableSlots = data.map(slot => ({
                 slotId: slot.id,
-                time: new Date(slot.start_time).toLocaleTimeString('en-US', { timeZone: 'UTC', hour: '2-digit', minute: '2-digit' }),
+                time: new Date(slot.start_time).toLocaleTimeString('en-US', { timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit' }),
                 doctor: (slot.doctors as any)?.name,
                 specialty: (slot.doctors as any)?.specialty
               }));
@@ -173,20 +173,19 @@ export async function POST(req: Request) {
                 .from('appointments')
                 .select('id, symptoms, status, slots(start_time), doctors(name)')
                 .eq('patient_id', patientId)
-                .eq('status', 'scheduled')
-                .limit(5);
+                .eq('status', 'scheduled');
               
               if (error) return { success: false, message: 'Failed to fetch appointments.' };
               
               // Sort memory because ordering by nested joined column is tricky in Supabase
-              const sortedData = data.sort((a, b) => new Date((a.slots as any)?.start_time).getTime() - new Date((b.slots as any)?.start_time).getTime());
+              const sortedData = data.sort((a, b) => new Date((a.slots as any)?.start_time).getTime() - new Date((b.slots as any)?.start_time).getTime()).slice(0, 5);
 
               const formatted = sortedData.map(appt => {
                 const startTime = new Date((appt.slots as any)?.start_time);
                 return {
                   id: appt.id,
                   date: startTime.toLocaleDateString(),
-                  time: startTime.toLocaleTimeString('en-US', { timeZone: 'UTC', hour: '2-digit', minute: '2-digit' }),
+                  time: startTime.toLocaleTimeString('en-US', { timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit' }),
                   doctor: (appt.doctors as any)?.name,
                   symptoms: appt.symptoms
                 };
@@ -229,7 +228,7 @@ export async function POST(req: Request) {
               await supabase.from('slots').update({ status: 'available' }).eq('id', oldAppt.slot_id);
               
               // Update appointment
-              const { error } = await supabase.from('appointments').update({ slot_id: newSlotId }).eq('id', appointmentId).eq('patient_id', patientId);
+              const { error } = await supabase.from('appointments').update({ slot_id: newSlotId, doctor_id: updatedSlot.doctor_id }).eq('id', appointmentId).eq('patient_id', patientId);
               if (error) return { success: false, message: 'Failed to reschedule.' };
               return { success: true, message: `Successfully rescheduled appointment.` };
             }

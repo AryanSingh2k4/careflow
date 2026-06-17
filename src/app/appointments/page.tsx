@@ -97,8 +97,8 @@ export default function AppointmentsPage() {
               <div className="space-y-4">
                 {appointments.map((apt) => {
                   const startTime = new Date(apt.slots?.start_time || new Date());
-                  const formattedDate = startTime.toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' });
-                  const formattedTime = startTime.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' });
+                  const formattedDate = startTime.toLocaleDateString('en-US', { timeZone: 'Asia/Kolkata', weekday: 'long', month: 'long', day: 'numeric' });
+                  const formattedTime = startTime.toLocaleTimeString('en-US', { timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit' });
                   
                   return (
                     <div key={apt.id} className="p-5 rounded-2xl border border-outline-variant/30 hover:border-primary/50 transition-colors flex flex-col md:flex-row md:items-center justify-between gap-4">

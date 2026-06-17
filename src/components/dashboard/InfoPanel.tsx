@@ -37,7 +37,7 @@ export function InfoPanel({ onAction, refreshTrigger = 0 }: { onAction?: (action
           return {
             id: appt.id,
             date: startTime.toLocaleDateString(),
-            time: startTime.toLocaleTimeString('en-US', { timeZone: 'UTC', hour: '2-digit', minute: '2-digit' }),
+            time: startTime.toLocaleTimeString('en-US', { timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit' }),
             patient_name: profile.name,
             symptoms: appt.symptoms,
             doctor: (appt.doctors as any)?.name
