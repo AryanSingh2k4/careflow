@@ -1,9 +1,17 @@
-import Link from "next/link";
 import { Header } from "@/components/layout/Header";
+
+type MedicalRecord = {
+  id: string;
+  type: string;
+  title: string;
+  doctor: string;
+  date: string;
+  status: string;
+};
 
 export default function MedicalRecordsPage() {
   // Empty state since we don't have records yet
-  const records: any[] = [];
+  const records: MedicalRecord[] = [];
 
   return (
     <div className="bg-background min-h-screen overflow-hidden font-body-md text-on-surface">

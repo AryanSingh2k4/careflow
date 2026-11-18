@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
 import { createClient } from "@/utils/supabase/client";
 import { Header } from "@/components/layout/Header";
 
@@ -34,7 +33,7 @@ export default function SettingsPage() {
       setIsLoading(false);
     }
     fetchProfile();
-  }, []);
+  }, [supabase]);
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();

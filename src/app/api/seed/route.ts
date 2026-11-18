@@ -65,8 +65,9 @@ export async function GET() {
     if (insertSlotErr) throw insertSlotErr;
 
     return NextResponse.json({ message: 'Database successfully seeded!', success: true });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Seed Error:', error);
-    return NextResponse.json({ error: error.message || error.toString() }, { status: 500 });
+    const message = error instanceof Error ? error.message : String(error);
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }

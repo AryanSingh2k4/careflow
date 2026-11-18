@@ -59,7 +59,7 @@ export async function searchClinicKnowledge(supabase: SupabaseClient, question: 
 
     const rpc = supabase.rpc('match_knowledge_chunks', {
       query_embedding: JSON.stringify(embedding),
-      match_threshold: 0.65,
+      match_threshold: 0.67,
       match_count: maxSources,
     }).abortSignal(controller.signal);
     const { data, error } = await bounded(rpc);

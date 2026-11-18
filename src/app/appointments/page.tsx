@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
 import { createClient } from "@/utils/supabase/client";
 import { Header } from "@/components/layout/Header";
 
@@ -57,13 +56,13 @@ export default function AppointmentsPage() {
         .order('created_at', { ascending: false });
 
       if (!error && data) {
-        setAppointments(data as any);
+        setAppointments(data as unknown as Appointment[]);
       }
       setIsLoading(false);
     }
     
     fetchAppointments();
-  }, []);
+  }, [supabase]);
 
   return (
     <div className="bg-background min-h-screen overflow-hidden font-body-md text-on-surface">
@@ -91,7 +90,7 @@ export default function AppointmentsPage() {
               <div className="text-center p-12">
                 <span className="material-symbols-outlined text-outline-variant text-5xl mb-4">event_busy</span>
                 <h3 className="font-headline-md text-on-surface">No appointments</h3>
-                <p className="text-on-surface-variant mt-2">You don't have any appointments booked.</p>
+                <p className="text-on-surface-variant mt-2">You don&apos;t have any appointments booked.</p>
               </div>
             ) : (
               <div className="space-y-4">

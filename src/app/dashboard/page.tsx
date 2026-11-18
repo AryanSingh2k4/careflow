@@ -43,7 +43,7 @@ export default function Dashboard() {
       <div className="max-w-6xl mx-auto">
         <div className="flex justify-between items-center mb-10">
           <div>
-            <h1 className="font-headline-lg text-headline-lg text-primary mb-2">Doctor's Dashboard</h1>
+            <h1 className="font-headline-lg text-headline-lg text-primary mb-2">Doctor&apos;s Dashboard</h1>
             <p className="text-on-surface-variant">View and manage patient appointments.</p>
           </div>
           <div className="bg-surface-container-low p-4 rounded-xl flex items-center gap-4 border border-outline-variant/30 shadow-sm">

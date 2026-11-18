@@ -8,6 +8,8 @@ import { loadOperatorEnv } from './operator-env.mjs';
 
 const model = 'models/gemini-embedding-2';
 const dimensions = 768;
+// Bump when the embedding input representation changes so unchanged Markdown is re-embedded.
+const embeddingRevision = 2;
 const maxChunkLength = 1200;
 const maxChunks = 100;
 const batchSize = 16;
@@ -166,6 +168,12 @@ function chunkMarkdown(markdown) {
   return chunks;
 }
 
+function embeddingText(content) {
+  // Keep the published chunk intact for retrieval citations; omit only the repeated
+  // portfolio disclaimer paragraph from Gemini's embedding input.
+  return content.replace(/^\*\*(?:Fictional demo content|Portfolio disclaimer):\*\*[\s\S]*?(?=\n\s*\n|$)\s*/gmu, '').trim();
+}
+
 async function loadDocument(path) {
   try {
     const input = new TextDecoder('utf-8', { fatal: true }).decode(await readFile(path)).replace(/\r\n?/g, '\n');
@@ -176,7 +184,7 @@ async function loadDocument(path) {
     const metadata = readMetadata(frontMatter[1]);
     const chunks = chunkMarkdown(input.slice(frontMatter[0].length));
     const hash = createHash('sha256')
-      .update(JSON.stringify({ format: 1, model, dimensions, ...metadata, chunks }))
+      .update(JSON.stringify({ format: embeddingRevision, model, dimensions, ...metadata, chunks }))
       .digest('hex');
     return { ...metadata, chunks, hash };
   } catch (error) {
@@ -210,7 +218,8 @@ async function embedDocument(apiKey, document) {
   for (let offset = 0; offset < document.chunks.length; offset += batchSize) {
     const batch = document.chunks.slice(offset, offset + batchSize);
     const requests = batch.map(({ heading, content }) => {
-      const section = heading ? `${heading}\n${content}` : content;
+      const cleanContent = embeddingText(content);
+      const section = [heading, cleanContent].filter(Boolean).join('\n');
       const category = document.category ? ` | category: ${document.category}` : '';
       return {
         model,

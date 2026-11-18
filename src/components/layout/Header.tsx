@@ -22,7 +22,7 @@ export function Header({ onMenuClick, showBack = false }: { onMenuClick?: () => 
       }
     }
     fetchUser();
-  }, []);
+  }, [supabase]);
 
   const handleSignOut = async () => {
     await supabase.auth.signOut();
@@ -65,7 +65,7 @@ export function Header({ onMenuClick, showBack = false }: { onMenuClick?: () => 
               </div>
               <div className="p-6 text-center text-on-surface-variant flex flex-col items-center">
                 <span className="material-symbols-outlined text-4xl mb-2 opacity-50">notifications_off</span>
-                <p className="font-label-sm">You're all caught up!</p>
+                <p className="font-label-sm">You&apos;re all caught up!</p>
               </div>
             </div>
           )}

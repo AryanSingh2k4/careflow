@@ -7,6 +7,7 @@ import { Header } from "@/components/layout/Header";
 import { Sidebar } from "@/components/layout/Sidebar";
 import { InfoPanel } from "@/components/dashboard/InfoPanel";
 import { createClient } from "@/utils/supabase/client";
+import { extractCitationIds } from "@/lib/citation-markers";
 import Loading from "./loading";
 
 const legacyChatKey = "careflow_chat_messages";
@@ -58,7 +59,7 @@ function readCachedMessages(storageKey: string): Message[] {
 function MessageSources({ message }: { message: Message }) {
   if (message.role !== "assistant" || !Array.isArray(message.annotations)) return null;
 
-  const references = new Set(Array.from(message.content.matchAll(/\[(S[1-9]\d*)\]/g), match => match[1]));
+  const references = extractCitationIds(message.content);
   if (references.size === 0) return null;
 
   const sources = new Map<string, { title: string; href: string; internal: boolean }>();

@@ -2,7 +2,14 @@ import { useEffect, useState } from 'react';
 import { createClient } from '@/utils/supabase/client';
 
 export function InfoPanel({ onAction, refreshTrigger = 0 }: { onAction?: (action: string) => void, refreshTrigger?: number }) {
-  const [appointments, setAppointments] = useState<any[]>([]);
+  const [appointments, setAppointments] = useState<Array<{
+    id: string;
+    date: string;
+    time: string;
+    patient_name: string | null;
+    symptoms: string | null;
+    doctor: string | null;
+  }>>([]);
   const [loading, setLoading] = useState(true);
   const supabase = createClient();
 
@@ -30,17 +37,23 @@ export function InfoPanel({ onAction, refreshTrigger = 0 }: { onAction?: (action
         .limit(3);
         
       if (!error && data) {
-        const sortedData = data.sort((a, b) => new Date((a.slots as any)?.start_time).getTime() - new Date((b.slots as any)?.start_time).getTime());
+        const appointments = data as unknown as Array<{
+          id: string;
+          symptoms: string | null;
+          slots: { start_time: string } | null;
+          doctors: { name: string } | null;
+        }>;
+        const sortedData = appointments.sort((a, b) => new Date(a.slots?.start_time ?? 0).getTime() - new Date(b.slots?.start_time ?? 0).getTime());
 
         const formatted = sortedData.map(appt => {
-          const startTime = new Date((appt.slots as any)?.start_time);
+          const startTime = new Date(appt.slots?.start_time ?? 0);
           return {
             id: appt.id,
             date: startTime.toLocaleDateString(),
             time: startTime.toLocaleTimeString('en-US', { timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit' }),
             patient_name: profile.name,
             symptoms: appt.symptoms,
-            doctor: (appt.doctors as any)?.name
+            doctor: appt.doctors?.name ?? null
           };
         });
         setAppointments(formatted);
@@ -48,7 +61,7 @@ export function InfoPanel({ onAction, refreshTrigger = 0 }: { onAction?: (action
       setLoading(false);
     }
     fetchAppointments();
-  }, [refreshTrigger]);
+  }, [refreshTrigger, supabase]);
 
   return (
     <aside className="w-full md:w-[350px] p-margin-mobile md:p-margin-desktop md:pl-0 flex flex-col gap-stack-md overflow-y-auto custom-scrollbar">
