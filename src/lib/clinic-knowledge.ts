@@ -14,8 +14,6 @@ type KnowledgeChunk = {
   similarity: number;
 };
 
-export type ClinicSource = { id: string; title: string; url: string };
-
 export async function searchClinicKnowledge(supabase: SupabaseClient, question: string, callerSignal?: AbortSignal) {
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) throw new Error('Clinic knowledge search is unavailable.');
@@ -65,25 +63,16 @@ export async function searchClinicKnowledge(supabase: SupabaseClient, question: 
     const { data, error } = await bounded(rpc);
     if (error) throw new Error('Clinic knowledge search failed.');
 
-    const sources: ClinicSource[] = [];
     const evidence: string[] = [];
     for (const row of (data ?? []) as KnowledgeChunk[]) {
-      if (sources.length >= maxSources || typeof row?.content !== 'string' ||
-          typeof row.title !== 'string' || typeof row.source_url !== 'string') continue;
-      let url: URL;
-      try { url = new URL(row.source_url); } catch { continue; }
-      if (url.protocol !== 'https:' || url.username || url.password) continue;
-
-      const id = `S${sources.length + 1}`;
+      if (evidence.length >= maxSources || typeof row?.content !== 'string' || !row.content.trim()) continue;
       const demoSource = /^demo-[a-z0-9]+(?:-[a-z0-9]+)*$/.test(row.document_id) &&
-        url.href === `https://careflow.example/knowledge/${row.document_id}`;
-      const citationUrl = demoSource ? `/knowledge/${row.document_id}` : url.href;
-      sources.push({ id, title: row.title.slice(0, 200), url: citationUrl });
-      const demoLabel = demoSource ? ' (fictional CareFlow Demo Clinic policy; do not present as real clinic information)' : '';
-      evidence.push(`[${id}] ${row.title}${demoLabel}${row.heading ? ` — ${row.heading}` : ''}\n${row.content.slice(0, 1200)}`);
+        row.source_url === `https://careflow.example/knowledge/${row.document_id}`;
+      const demoLabel = demoSource ? ' [Fictional demo clinic information; identify it as demo information in any answer.]' : '';
+      evidence.push(`${row.content.slice(0, 1200)}${demoLabel}`);
     }
 
-    return { sources, evidence: evidence.join('\n\n') };
+    return { evidence: evidence.join('\n\n') };
   } finally {
     clearTimeout(timeout);
     callerSignal?.removeEventListener('abort', abortFromCaller);

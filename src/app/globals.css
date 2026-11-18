@@ -1,138 +1,374 @@
-@import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap");
 @import "tailwindcss";
 
+/* ---------------------------------------------------------------------------
+   CareFlow — warm care design language
+   A soft, sunlit clinic palette: ivory paper, sage, clay and honey.
+--------------------------------------------------------------------------- */
+
 :root {
-  --background: #f7f9fb;
-  --foreground: #191c1e;
+  --background: #fbf7f0;
+  --foreground: #2c2a25;
+  color-scheme: light;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: 'Inter', sans-serif;
-  --font-serif: 'Inter', sans-serif;
+  /* Typography families ---------------------------------------------------- */
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-serif: var(--font-fraunces), Georgia, "Times New Roman", serif;
 
-  /* Theme colors from user's Stitch theme */
-  --color-secondary-fixed-dim: #b7c8e1;
-  --color-secondary: #505f76;
-  --color-on-tertiary-container: #ffe3db;
-  --color-on-primary-container: #e5e8ff;
-  --color-on-primary-fixed: #001550;
-  --color-on-surface: #191c1e;
-  --color-on-secondary-fixed-variant: #38485d;
-  --color-primary: #0043c8;
-  --color-tertiary-fixed: #ffdbd1;
-  --color-error-container: #ffdad6;
-  --color-on-secondary-fixed: #0b1c30;
-  --color-on-tertiary-fixed: #3a0a00;
-  --color-primary-fixed: #dce1ff;
-  --color-on-tertiary-fixed-variant: #862300;
-  --color-on-primary: #ffffff;
-  --color-surface-container: #eceef0;
-  --color-secondary-fixed: #d3e4fe;
-  --color-tertiary-container: #c13600;
-  --color-surface-variant: #e0e3e5;
-  --color-primary-container: #0057ff;
-  --color-tertiary-fixed-dim: #ffb59f;
-  --color-inverse-surface: #2d3133;
-  --color-surface-container-high: #e6e8ea;
-  --color-secondary-container: #d0e1fb;
-  --color-primary-fixed-dim: #b6c4ff;
-  --color-surface: #f7f9fb;
-  --color-outline-variant: #c3c5d9;
-  --color-inverse-on-surface: #eff1f3;
-  --color-surface-container-highest: #e0e3e5;
-  --color-surface-tint: #004ee7;
-  --color-on-error-container: #93000a;
-  --color-on-surface-variant: #434656;
-  --color-surface-dim: #d8dadc;
-  --color-surface-container-low: #f2f4f6;
-  --color-surface-bright: #f7f9fb;
-  --color-on-tertiary: #ffffff;
-  --color-surface-container-lowest: #ffffff;
-  --color-error: #ba1a1a;
-  --color-inverse-primary: #b6c4ff;
-  --color-background: #f7f9fb;
-  --color-on-secondary: #ffffff;
-  --color-tertiary: #972800;
-  --color-on-error: #ffffff;
-  --color-on-secondary-container: #54647a;
-  --color-outline: #737688;
-  --color-on-background: #191c1e;
-  --color-on-primary-fixed-variant: #003ab2;
+  /* Named families used across the app (kept for existing class names) */
+  --font-display: var(--font-fraunces), Georgia, "Times New Roman", serif;
+  --font-headline-lg: var(--font-fraunces), Georgia, "Times New Roman", serif;
+  --font-headline-lg-mobile: var(--font-fraunces), Georgia, "Times New Roman", serif;
+  --font-headline-md: var(--font-fraunces), Georgia, "Times New Roman", serif;
+  --font-headline-sm: var(--font-fraunces), Georgia, "Times New Roman", serif;
+  --font-body-lg: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-body-md: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-body-sm: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-label-lg: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-label-md: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-label-sm: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 
-  /* Spacing */
+  /* Core surfaces ---------------------------------------------------------- */
+  --color-background: #fbf7f0;
+  --color-foreground: #2c2a25;
+  --color-surface: #fbf7f0;
+  --color-surface-dim: #efe6d8;
+  --color-surface-bright: #fffcf7;
+  --color-surface-variant: #e9dfce;
+  --color-surface-tint: #3f6350;
+  --color-surface-container-lowest: #fffdf9;
+  --color-surface-container-low: #f7f0e5;
+  --color-surface-container: #f2eadc;
+  --color-surface-container-high: #ebe1d0;
+  --color-surface-container-highest: #e4d8c4;
+  --color-on-surface: #2c2a25;
+  --color-on-surface-variant: #6b6459;
+  --color-on-background: #2c2a25;
+  --color-outline: #8d8477;
+  --color-outline-variant: #e2d7c6;
+  --color-inverse-surface: #332f28;
+  --color-inverse-on-surface: #fbf7f0;
+  --color-inverse-primary: #c7dccb;
+
+  /* Sage — primary --------------------------------------------------------- */
+  --color-primary: #3f6350;
+  --color-on-primary: #fffdf8;
+  --color-primary-container: #dce9df;
+  --color-on-primary-container: #1e3a2a;
+  --color-primary-fixed: #dce9df;
+  --color-primary-fixed-dim: #b9cfbe;
+  --color-on-primary-fixed: #10241a;
+  --color-on-primary-fixed-variant: #33543f;
+
+  /* Clay — secondary ------------------------------------------------------- */
+  --color-secondary: #9c4f36;
+  --color-on-secondary: #fff8f3;
+  --color-secondary-container: #f6dfd3;
+  --color-on-secondary-container: #6b331f;
+  --color-secondary-fixed: #f6dfd3;
+  --color-secondary-fixed-dim: #e7bea9;
+  --color-on-secondary-fixed: #401a0e;
+  --color-on-secondary-fixed-variant: #7c3a24;
+
+  /* Honey — tertiary ------------------------------------------------------- */
+  --color-tertiary: #8a6414;
+  --color-on-tertiary: #fffdf6;
+  --color-tertiary-container: #f4e5c2;
+  --color-on-tertiary-container: #5a400a;
+  --color-tertiary-fixed: #f4e5c2;
+  --color-tertiary-fixed-dim: #e3cc97;
+  --color-on-tertiary-fixed: #332302;
+  --color-on-tertiary-fixed-variant: #6e4f0e;
+
+  /* Support ---------------------------------------------------------------- */
+  --color-error: #9e3a2c;
+  --color-on-error: #fff8f6;
+  --color-error-container: #fbe3dd;
+  --color-on-error-container: #6e2116;
+  --color-success: #3e6b4f;
+  --color-on-success: #fffdf8;
+  --color-success-container: #e3efe4;
+  --color-on-success-container: #21402d;
+
+  /* Warm accents for illustration and highlights */
+  --color-cream: #fbf7f0;
+  --color-ink: #2c2a25;
+  --color-blush: #f6e2d8;
+  --color-honey: #e8d3a5;
+
+  /* Spacing ---------------------------------------------------------------- */
   --spacing-margin-mobile: 16px;
   --spacing-margin-desktop: 40px;
-  --spacing-stack-sm: 12px;
   --spacing-unit: 8px;
-  --spacing-stack-lg: 48px;
-  --spacing-stack-md: 24px;
-  --spacing-container-padding: 24px;
   --spacing-gutter: 16px;
+  --spacing-stack-sm: 12px;
+  --spacing-stack-md: 24px;
+  --spacing-stack-lg: 48px;
+  --spacing-container-padding: 24px;
 
-  /* Fonts overrides */
+  /* Radii ------------------------------------------------------------------ */
+  --radius-field: 0.85rem;
+  --radius-card: 1.5rem;
+  --radius-panel: 2rem;
+
+  /* Shadows ---------------------------------------------------------------- */
+  --shadow-soft: 0 1px 2px rgba(70, 55, 35, 0.04), 0 8px 24px -18px rgba(70, 55, 35, 0.28);
+  --shadow-card: 0 1px 2px rgba(70, 55, 35, 0.04), 0 18px 40px -28px rgba(70, 55, 35, 0.34);
+  --shadow-float: 0 30px 70px -32px rgba(70, 55, 35, 0.38);
+  --shadow-inset: inset 0 1px 0 rgba(255, 255, 255, 0.65);
+
+  /* Type scale ------------------------------------------------------------- */
+  --text-display-lg: 52px;
+  --text-display-lg--line-height: 60px;
+  --text-display-lg--letter-spacing: -0.025em;
+  --text-display-lg--font-weight: 600;
+
+  --text-display-sm: 36px;
+  --text-display-sm--line-height: 44px;
+  --text-display-sm--letter-spacing: -0.02em;
+  --text-display-sm--font-weight: 600;
+
+  --text-headline-lg: 34px;
+  --text-headline-lg--line-height: 42px;
+  --text-headline-lg--letter-spacing: -0.015em;
+  --text-headline-lg--font-weight: 600;
+
+  --text-headline-lg-mobile: 27px;
+  --text-headline-lg-mobile--line-height: 34px;
+  --text-headline-lg-mobile--letter-spacing: -0.015em;
+  --text-headline-lg-mobile--font-weight: 600;
+
+  --text-headline-md: 23px;
+  --text-headline-md--line-height: 31px;
+  --text-headline-md--letter-spacing: -0.01em;
+  --text-headline-md--font-weight: 600;
+
+  --text-headline-sm: 19px;
+  --text-headline-sm--line-height: 27px;
+  --text-headline-sm--font-weight: 600;
+
   --text-body-lg: 18px;
-  --text-body-lg--line-height: 28px;
+  --text-body-lg--line-height: 30px;
   --text-body-lg--font-weight: 400;
 
   --text-body-md: 16px;
-  --text-body-md--line-height: 24px;
+  --text-body-md--line-height: 26px;
   --text-body-md--font-weight: 400;
 
-  --text-label-sm: 12px;
-  --text-label-sm--line-height: 16px;
-  --text-label-sm--font-weight: 600;
+  --text-body-sm: 14px;
+  --text-body-sm--line-height: 22px;
+  --text-body-sm--font-weight: 400;
 
-  --text-display-lg: 48px;
-  --text-display-lg--line-height: 56px;
-  --text-display-lg--letter-spacing: -0.02em;
-  --text-display-lg--font-weight: 700;
-
-  --text-headline-md: 24px;
-  --text-headline-md--line-height: 32px;
-  --text-headline-md--font-weight: 600;
-
-  --text-headline-lg: 32px;
-  --text-headline-lg--line-height: 40px;
-  --text-headline-lg--letter-spacing: -0.01em;
-  --text-headline-lg--font-weight: 600;
-
-  --text-headline-lg-mobile: 24px;
-  --text-headline-lg-mobile--line-height: 32px;
-  --text-headline-lg-mobile--font-weight: 600;
+  --text-label-lg: 15px;
+  --text-label-lg--line-height: 22px;
+  --text-label-lg--font-weight: 600;
 
   --text-label-md: 14px;
   --text-label-md--line-height: 20px;
   --text-label-md--letter-spacing: 0.01em;
   --text-label-md--font-weight: 500;
+
+  --text-label-sm: 12px;
+  --text-label-sm--line-height: 17px;
+  --text-label-sm--letter-spacing: 0.04em;
+  --text-label-sm--font-weight: 600;
 }
 
-body {
-  background-color: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-sans);
-  -webkit-font-smoothing: antialiased;
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background: var(--color-primary-container);
+    color: var(--color-on-primary-container);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+
+  button,
+  a {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      scroll-behavior: auto !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
 }
 
+/* Legacy helper kept so older markup still renders consistently. */
 .card-shadow {
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
-  border: 1px solid #E2E8F0;
+  border: 1px solid color-mix(in srgb, var(--color-outline-variant) 70%, transparent);
+  box-shadow: var(--shadow-card);
 }
-.material-symbols-outlined {
-  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-}
+
 .glass-effect {
-  backdrop-filter: blur(10px);
-  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  background: color-mix(in srgb, var(--color-surface) 82%, transparent);
 }
+
 .custom-scrollbar::-webkit-scrollbar {
-  width: 6px;
+  width: 8px;
+  height: 8px;
 }
 .custom-scrollbar::-webkit-scrollbar-track {
   background: transparent;
 }
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background: #e2e8f0;
-  border-radius: 10px;
+  background: color-mix(in srgb, var(--color-outline-variant) 85%, transparent);
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+.custom-scrollbar:hover::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--color-outline) 55%, transparent);
+  background-clip: padding-box;
+}
+
+/* Soft dotted paper texture used behind the conversation. */
+.paper-texture {
+  background-image: radial-gradient(
+    color-mix(in srgb, var(--color-outline-variant) 65%, transparent) 1px,
+    transparent 1px
+  );
+  background-size: 22px 22px;
+  background-position: -1px -1px;
+}
+
+/* Warm ambient blooms */
+.warm-bloom {
+  background:
+    radial-gradient(60% 60% at 80% 0%, rgba(220, 233, 223, 0.9) 0%, rgba(220, 233, 223, 0) 70%),
+    radial-gradient(50% 50% at 10% 20%, rgba(246, 223, 211, 0.85) 0%, rgba(246, 223, 211, 0) 70%),
+    radial-gradient(45% 45% at 50% 100%, rgba(244, 229, 194, 0.7) 0%, rgba(244, 229, 194, 0) 70%);
+}
+
+/* Markdown rendered inside chat bubbles and knowledge articles. */
+.prose-careflow {
+  color: var(--color-on-surface);
+  font-size: 14.5px;
+  line-height: 1.62;
+  overflow-wrap: anywhere;
+}
+@media (min-width: 640px) {
+  .prose-careflow {
+    font-size: 15.5px;
+    line-height: 1.7;
+  }
+}
+.prose-careflow > * + * {
+  margin-top: 0.7em;
+}
+.prose-careflow p {
+  margin: 0;
+}
+.prose-careflow strong {
+  font-weight: 650;
+  color: var(--color-on-surface);
+}
+.prose-careflow em {
+  font-style: italic;
+}
+.prose-careflow ul,
+.prose-careflow ol {
+  margin: 0.55em 0 0.2em;
+  padding-left: 1.35em;
+}
+.prose-careflow ul {
+  list-style: disc;
+}
+.prose-careflow ol {
+  list-style: decimal;
+}
+.prose-careflow li + li {
+  margin-top: 0.3em;
+}
+.prose-careflow a {
+  color: var(--color-primary);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1.5px;
+}
+.prose-careflow a:hover {
+  color: var(--color-secondary);
+}
+.prose-careflow code {
+  background: var(--color-surface-container);
+  border: 1px solid var(--color-outline-variant);
+  border-radius: 0.4rem;
+  padding: 0.1em 0.35em;
+  font-size: 0.88em;
+}
+.prose-careflow pre {
+  background: var(--color-inverse-surface);
+  color: var(--color-inverse-on-surface);
+  padding: 0.9rem 1rem;
+  border-radius: 0.9rem;
+  overflow-x: auto;
+}
+.prose-careflow pre code {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  color: inherit;
+}
+.prose-careflow h1,
+.prose-careflow h2,
+.prose-careflow h3 {
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-weight: 600;
+  line-height: 1.25;
+  margin-top: 1.1em;
+}
+.prose-careflow h1 {
+  font-size: 1.4em;
+}
+.prose-careflow h2 {
+  font-size: 1.22em;
+}
+.prose-careflow h3 {
+  font-size: 1.1em;
+}
+.prose-careflow blockquote {
+  border-left: 3px solid var(--color-primary-fixed-dim);
+  padding-left: 0.9rem;
+  color: var(--color-on-surface-variant);
+}
+.prose-careflow hr {
+  border: 0;
+  border-top: 1px solid var(--color-outline-variant);
+  margin: 1em 0;
+}
+
+/* Article typography for the knowledge reader. */
+.article-prose {
+  color: var(--color-on-surface);
+  font-size: 17px;
+  line-height: 1.85;
+}
+.article-prose p {
+  margin: 0;
+}
+.article-prose > * + * {
+  margin-top: 1.1em;
 }
