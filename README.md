@@ -108,7 +108,7 @@ npm run knowledge:ingest -- --dry-run knowledge/examples
 npm run knowledge:ingest -- --dry-run knowledge/demo
 ```
 
-Fictional corpus documents use `demo-` IDs and reserved canonical source URLs of the form `https://careflow.example/knowledge/<same-id>`. Chat citations resolve these sentinel URLs to authenticated-session source pages at `/knowledge/<id>`; ordinary HTTPS source citations remain external links. The detail page shows only published `demo-` documents visible through the caller's Supabase session and RLS.
+Fictional corpus documents use `demo-` IDs and reserved canonical source URLs of the form `https://careflow.example/knowledge/<same-id>`. The retrieval pipeline may use these sentinel URLs internally, but the website does not display citation links or source document pages; requests to `/knowledge` return 404. Markdown remains available in this repository and its public GitHub view.
 
 `knowledge/evaluation/` is quarantined and contains hard negative evaluation documents with `eval-` IDs. They are rejected from every ingest attempt before embedding, including mixed attempts. Keep them out of all publish flows.
 

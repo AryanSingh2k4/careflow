@@ -2,6 +2,16 @@ import { NextResponse, type NextRequest } from 'next/server'
 import { createServerClient } from '@supabase/ssr'
 
 export async function proxy(request: NextRequest) {
+  let pathname = request.nextUrl.pathname
+  try {
+    pathname = decodeURIComponent(pathname)
+  } catch {
+    // Leave malformed paths to normal routing.
+  }
+  if (pathname === '/knowledge' || pathname.startsWith('/knowledge/')) {
+    return new NextResponse(null, { status: 404 })
+  }
+
   let supabaseResponse = NextResponse.next({
     request,
   })

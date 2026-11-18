@@ -16,7 +16,6 @@ import {
   Mic,
 } from "lucide-react";
 import { InfoPanel } from "@/components/dashboard/InfoPanel";
-import { MessageSources } from "@/components/chat/MessageSources";
 import { Markdown } from "@/components/chat/Markdown";
 import { ToolResultCard, appointmentToolNames } from "@/components/chat/ToolResultCard";
 import { CompanionIllustration } from "@/components/brand/Illustrations";
@@ -429,6 +428,9 @@ function Receptionist({ session }: { session: ChatSession }) {
                   <div className="space-y-4 sm:space-y-6">
                     {messages.map((message: Message, index) => {
                       const isAssistant = message.role === "assistant";
+                      const displayContent = isAssistant
+                        ? message.content.replace(/(?<!\[)\[(?:S[1-9]\d*)(?:\s*,\s*S[1-9]\d*)*\](?!\])/g, "")
+                        : message.content;
                       const isLast = index === messages.length - 1;
                       const streaming = isLoading && isLast && isAssistant;
 
@@ -469,14 +471,13 @@ function Receptionist({ session }: { session: ChatSession }) {
                               <>
                                 {message.content ? (
                                   <div className="rounded-2xl rounded-tl-md border border-outline-variant/60 bg-surface-container-low px-3.5 py-3 text-on-surface shadow-soft sm:px-4 sm:py-3.5">
-                                    <Markdown content={message.content} />
+                                    <Markdown content={displayContent} />
                                     {streaming ? (
                                       <span
                                         className="ml-0.5 inline-block h-4 w-[2px] animate-pulse rounded-full bg-primary align-[-0.15em]"
                                         aria-hidden
                                       />
                                     ) : null}
-                                    <MessageSources message={message} />
                                   </div>
                                 ) : null}
 
@@ -497,7 +498,7 @@ function Receptionist({ session }: { session: ChatSession }) {
 
                                 {message.content ? (
                                   <div className="mt-1 pl-1">
-                                    <CopyButton text={message.content} />
+                                    <CopyButton text={displayContent} />
                                   </div>
                                 ) : null}
                               </>
